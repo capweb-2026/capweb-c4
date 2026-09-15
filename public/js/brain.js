@@ -10,8 +10,7 @@ export function validateMessage(raw) {
 
 export function replyTo(message) {
     message = message.toLowerCase();
-    if (message === "salut") return "yo" 
-    else if (message === "bonjour") return "bonsoir"
+    if (message === "salut" || message === "bonjour") return "yo" 
     else if (message === "aide") return "demerde toi"
     else if (message === "test") return "test test"
     else return "pas compris"
