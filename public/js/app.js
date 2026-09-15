@@ -53,6 +53,8 @@ formulaire?.addEventListener('submit', (event) => {
 
 effacerButton?.addEventListener('click', event => {
     event.preventDefault();
+    if (!confirm('Voulez-vous effacer la conversation ?')) return;
+    
     historique = [];
     localStorage.removeItem('capweb.historique')
     renderMessages(historique,messages);
