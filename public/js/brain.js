@@ -1,5 +1,6 @@
 
 export function validateMessage(raw) {
+  if(typeof(raw) !== String) return { 'ok': false, 'error': 'Message invalide' }; 
   const trimedMessage = raw.trim();
 
   if (trimedMessage.length === 0 || typeof(trimedMessage) === String || trimedMessage.length > 280 ) {
