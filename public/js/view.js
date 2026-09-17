@@ -7,7 +7,7 @@ export function renderMessages(messages, container) {
             ligne.textContent = 'Vous : '+message.text;
         }
         else if (message.role === 'assistant') {
-            ligne.textContent = 'Cap Web : '+message.text;
+            ligne.textContent = 'Nova : '+message.text;
         }
         lignes.push(ligne);
     });

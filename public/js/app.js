@@ -1,5 +1,6 @@
 import { validateMessage, replyTo } from './brain.js';
 import { renderMessages } from './view.js';
+import { persona } from './persona.js';
 
 document.querySelector('#status').textContent = 'Votre point de départ est prêt.';
 
@@ -9,7 +10,37 @@ const versionElt = document.querySelector('#version');
 const champ = document.querySelector('#message');
 const messages = document.querySelector('#messages');
 const effacerButton = document.querySelector('#effacer')
+const accueil = document.querySelector('#accueil');
+const suggestions = document.querySelector('#suggestions');
 let historique = [];
+
+function afficherAccueil() {
+  if (accueil) {
+    // L'accueil n'est pas une ligne de #messages : il disparaît dès le premier message.
+    accueil.textContent = historique.length === 0 ? persona.accueil : '';
+    accueil.hidden = historique.length !== 0;
+  }
+  if (suggestions) {
+    suggestions.replaceChildren();
+    if (historique.length === 0) {
+      suggestions.hidden = false;
+      persona.suggestions.forEach((texte) => {
+        const bouton = document.createElement('button');
+        bouton.type = 'button';
+        // Texte uniquement : jamais de HTML injecté.
+        bouton.textContent = texte;
+        bouton.addEventListener('click', () => {
+          // Remplit le champ sans envoyer.
+          champ.value = texte;
+          champ.focus();
+        });
+        suggestions.appendChild(bouton);
+      });
+    } else {
+      suggestions.hidden = true;
+    }
+  }
+}
 
 try {
   historique = JSON.parse(localStorage.getItem('capweb.historique'))
@@ -18,11 +49,13 @@ try {
     if (validateMessage(ligne.text).ok === false) throw new Error;
   });
     renderMessages(historique,messages);
+    afficherAccueil();
     
 } catch (error) {
   historique = []
   localStorage.removeItem('capweb.historique')
   statut.textContent = "Impossible de récuperer la conversation."
+  afficherAccueil();
 }
 
 // J1 : interface seule, on bloque l’envoi et on l’explique.
@@ -44,6 +77,7 @@ formulaire?.addEventListener('submit', (event) => {
   localStorage.setItem('capweb.historique', JSON.stringify(historique))
 
   renderMessages(historique,messages);
+  afficherAccueil();
 
   champ.value = '';
   champ.focus();
@@ -58,6 +92,7 @@ effacerButton?.addEventListener('click', event => {
     historique = [];
     localStorage.removeItem('capweb.historique')
     renderMessages(historique,messages);
+    afficherAccueil();
 })
 
 // Version du serveur local, échec discret si indisponible.
