@@ -58,7 +58,8 @@ test.describe('Identité Nova — titre et accueil (critères 1 à 3)', () => {
     await pageNeuve(page);
     await envoyer(page, 'salut');
     await expect(lignes(page)).toHaveCount(2);
-    await expect(page.locator('#accueil')).not.toBeVisible();
+    await expect(page.locator('#accueil')).toHaveCount(1);
+    await expect(page.locator('#accueil')).toBeHidden();
   });
 
   test('Crit.3c — l’accueil revient quand la conversation est effacée', async ({ page }) => {
