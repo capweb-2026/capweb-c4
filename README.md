@@ -1,5 +1,7 @@
 # Cap Web — le chatbot du binôme et son harnais
 
+**En production : https://capweb-c4-ruddy.vercel.app** — version servie : [`/version.json`](https://capweb-c4-ruddy.vercel.app/version.json).
+
 Ce dépôt contient votre assistant et tout ce qui l'empêche de casser : tests de contrat, contrôles, chaîne CI/CD et carte des défenses. Des agents peuvent écrire le code ; c'est vous qui décidez de ce qui entre dans `main` et de ce qui part en prod.
 
 ## Lancer en local
